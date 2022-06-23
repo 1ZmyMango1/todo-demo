@@ -1,8 +1,13 @@
 <template>
+  <!-- @del-todo="delTode = list = list.filter((item) => item.id !== $event) -->
   <div>
     <MyHeader :list="list"></MyHeader>
-    <MyMain :list="list" @del-todo="delTode"></MyMain>
-    <MyFooter></MyFooter>
+    <MyMain
+      :list="list"
+      @del-todo="delTode"
+      :currentState="currentState"
+    ></MyMain>
+    <MyFooter @change-state="currentState = $event"></MyFooter>
   </div>
 </template>
 
@@ -18,6 +23,7 @@ export default {
   },
   data() {
     return {
+      currentState: '全部',
       list: [
         { id: 100, name: '吃饭', isDone: true },
         { id: 201, name: '睡觉', isDone: false },
@@ -27,8 +33,10 @@ export default {
   },
   methods: {
     // 删除
-    delTode() {
-      console.log('父组件正在删除')
+    delTode(id) {
+      // console.log('父组件正在删除')
+      this.list = this.list.filter((item) => item.id !== id)
+      // this.list.splice(index, 1)
     }
   }
 }
