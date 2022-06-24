@@ -7,7 +7,10 @@
       @del-todo="delTode"
       :currentState="currentState"
     ></MyMain>
-    <MyFooter @change-state="currentState = $event"></MyFooter>
+    <MyFooter
+      @del-done="delDone"
+      @change-state="currentState = $event"
+    ></MyFooter>
   </div>
 </template>
 
@@ -37,6 +40,10 @@ export default {
       // console.log('父组件正在删除')
       this.list = this.list.filter((item) => item.id !== id)
       // this.list.splice(index, 1)
+    },
+    // 清除已完成
+    delDone() {
+      this.list = this.list.filter((item) => !item.isDone)
     }
   }
 }

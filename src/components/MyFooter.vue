@@ -8,7 +8,7 @@
         }}</a>
       </li>
     </ul>
-    <button class="clear-completed">清除已完成</button>
+    <button @click="delDone" class="clear-completed">清除已完成</button>
   </footer>
 </template>
 
@@ -50,6 +50,9 @@ export default {
       // 排他思想
       this.lis.forEach((i) => (i.isSelect = i === item))
       this.$emit('change-state', item.name)
+    },
+    delDone() {
+      this.$emit('del-don')
     }
   }
 }
