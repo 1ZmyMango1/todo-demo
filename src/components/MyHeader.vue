@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1>todos</h1>
-    <input id="toggle-all" class="toggle-all" type="checkbox" />
+    <input id="toggle-all" class="toggle-all" type="checkbox" v-model="isAll" />
     <label for="toggle-all"></label>
     <input
       v-model="task"
@@ -41,6 +41,18 @@ export default {
 
       // 输入成功后，清空输入框
       this.task = ''
+    }
+  },
+  computed: {
+    isAll: {
+      get() {
+        return this.list.every((item) => item.isDone)
+      },
+      set(newChecked) {
+        this.list.forEach((item) => {
+          item.isDone = newChecked
+        })
+      }
     }
   }
 }

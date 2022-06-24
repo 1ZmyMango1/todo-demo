@@ -8,6 +8,7 @@
       :currentState="currentState"
     ></MyMain>
     <MyFooter
+      :list="list"
       @del-done="delDone"
       @change-state="currentState = $event"
     ></MyFooter>
@@ -18,6 +19,8 @@
 import MyHeader from './components/MyHeader.vue'
 import MyMain from './components/MyMain.vue'
 import MyFooter from './components/MyFooter.vue'
+
+const TODOLIST = 'TODO-LIST'
 export default {
   components: {
     MyHeader,
@@ -27,11 +30,7 @@ export default {
   data() {
     return {
       currentState: '全部',
-      list: [
-        { id: 100, name: '吃饭', isDone: true },
-        { id: 201, name: '睡觉', isDone: false },
-        { id: 103, name: '打豆豆', isDone: true }
-      ]
+      list: JSON.parse(localStorage.getItem(TODOLIST)) || []
     }
   },
   methods: {
@@ -44,6 +43,17 @@ export default {
     // 清除已完成
     delDone() {
       this.list = this.list.filter((item) => !item.isDone)
+    }
+  },
+  watch: {
+    list: {
+      // 深度监听
+      deep: true,
+      // 打开页面自动监听
+      immediate: true,
+      handler(newList) {
+        localStorage.setItem(TODOLIST, JSON.stringify(newList))
+      }
     }
   }
 }

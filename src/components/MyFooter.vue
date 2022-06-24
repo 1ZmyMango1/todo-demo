@@ -1,6 +1,8 @@
 <template>
   <footer class="footer">
-    <span class="todo-count">剩余<strong>数量值</strong></span>
+    <span class="todo-count"
+      >剩余<strong>数量值{{ isDoneCount }}</strong></span
+    >
     <ul class="filters">
       <li v-for="item in lis" :key="item.id" @click="changeState(item)">
         <a :class="{ selected: item.isSelect }" href="javascript:;">{{
@@ -15,6 +17,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid'
 export default {
+  props: ['list'],
   data() {
     return {
       lis: [
@@ -53,6 +56,17 @@ export default {
     },
     delDone() {
       this.$emit('del-don')
+    }
+  },
+  computed: {
+    isDoneCount() {
+      return this.list.reduce((per, curr) => {
+        if (curr.isDone) {
+          return per
+        } else {
+          return per + 1
+        }
+      }, 0)
     }
   }
 }
